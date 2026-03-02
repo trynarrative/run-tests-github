@@ -2,25 +2,25 @@ name: 'Run Narrative tests'
 description: 'Run Narrative tests via GitHub actions'
 
 inputs:
-  github-token:
-    description: 'Default GITHUB_TOKEN'
-    required: true
+  github-token:
+    description: 'Default GITHUB_TOKEN'
+    required: true
 
 runs:
-  using: 'composite'
-  steps:
-    - name: Dispatch to Narrative App
-      env:
-        GH_TOKEN: ${{ inputs.github-token }}
-      run: |
-        echo ":rocket: Pinging Narrative via native GitHub Webhook..."
-
-        gh api repos/${{ github.repository }}/dispatches \
-          -f event_type="trynarrative_trigger" \
-          -F client_payload[trigger_source]="${{ github.event_name }}" \
-          -F client_payload[branch]="${{ github.ref_name }}" \
-          -F client_payload[commit]="${{ github.sha }}" \
-          -F client_payload[pr_number]="${{ github.event.pull_request.number || '' }}"
-
-        echo ":white_check_mark: Webhook fired! Narrative App will run your tests."
-      shell: bash
+  using: 'composite'
+  steps:
+    - name: Dispatch to Narrative App
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+      run: |
+        echo "🚀 Pinging TryNarrative via native GitHub Webhook..."
+        
+        gh api repos/${{ github.repository }}/dispatches \
+          -f event_type="trynarrative_trigger" \
+          -F client_payload[trigger_source]="${{ github.event_name }}" \
+          -F client_payload[branch]="${{ github.ref_name }}" \
+          -F client_payload[commit]="${{ github.sha }}" \
+          -F client_payload[pr_number]="${{ github.event.pull_request.number || '' }}"
+          
+        echo "✅ Webhook fired! TryNarrative App will run your tests."
+      shell: bash
