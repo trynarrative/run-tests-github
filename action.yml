@@ -19,7 +19,7 @@ runs:
           -f event_type="trynarrative_trigger" \
           -F client_payload[trigger_source]="${{ github.event_name }}" \
           -F client_payload[branch]="${{ github.ref_name }}" \
-          -F client_payload[commit]="${{ github.sha }}" \
+          -F client_payload[commit]="${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}" \
           -F client_payload[pr_number]="${{ github.event.pull_request.number || '' }}"
           
         echo "✅ Webhook fired! TryNarrative App will run your tests."
